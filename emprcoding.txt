@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        h1, h2, h3 {
+            color: #4a148c;
+            text-align: center;
+        }
+
+        button {
+            background-color: #4a148c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+
+        button:hover {
+            background-color: #6a1b9a;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .intro {
+            text-align: center;
+            margin: 50px auto;
+        }
+
+        .intro button {
+            margin-top: 20px;
+        }
+
+        .form-section {
+            padding: 20px;
+            border: 2px solid #4a148c;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #e91e63;
+        }
+
+        .event-list {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background: #f4f4f4;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #4a148c;
+            color: white;
+            border-radius: 0 0 15px 15px;
+        }
+
+        /* About Us Section */
+        .about-us {
+            margin-top: 30px;
+            background-color: #ffe0f0;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        /* Feedback Section */
+        .feedback-section {
+            margin-top: 30px;
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Introduction Page -->
+    <div id="introPage" class="intro">
+        <h1>Welcome to the Event Management System</h1>
+        <p>Plan and manage your events effortlessly.</p>
+        <button onclick="goToRegister()">Click Here to Register</button>
+
+        <!-- About Us Section -->
+        <div class="about-us">
+            <h2>About Us</h2>
+            <p>
+                Welcome to the Event Management System! We aim to make event registration simple and seamless.
+                Our platform helps you register for events, manage schedules, and connect with people effectively. 
+            </p>
+        </div>
+    </div>
+
+    <!-- Registration Page -->
+    <div id="registerPage" class="hidden">
+        <div class="container">
+            <h1>Event Management System</h1>
+            <h2>Register for an Event</h2>
+            <form id="registrationForm" class="form-section">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" placeholder="Enter your full name" required>
+
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+
+                <label for="eventName">Event Name:</label>
+                <select id="eventName" required>
+                    <option value="">Select an event</option>
+                    <option value="Innovation Hub">Innovation Hub</option>
+                    <option value="Tech Conference">Tech Conference</option>
+                    <option value="Startup Meetup">Startup Meetup</option>
+                </select>
+
+                <label for="eventDate">Event Date:</label>
+                <input type="date" id="eventDate" required>
+
+                <label for="eventPlace">Event Place:</label>
+                <input type="text" id="eventPlace" placeholder="Enter event place" required>
+
+                <button type="button" onclick="submitRegistration()">Register</button>
+            </form>
+            <button class="back-button" onclick="goToIntro()">Back to Menu</button>
+        </div>
+
+        <div class="container">
+            <h3>All Registrations:</h3>
+            <ul id="registrationsList" class="event-list"></ul>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="feedback-section">
+            <h2>Feedback</h2>
+            <form id="feedbackForm">
+                <label for="feedbackName">Your Name:</label>
+                <input type="text" id="feedbackName" placeholder="Enter your name" required>
+
+                <label for="feedbackMessage">Your Feedback:</label>
+                <textarea id="feedbackMessage" placeholder="Write your feedback here..." rows="4" required></textarea>
+
+                <button type="button" onclick="submitFeedback()">Submit Feedback</button>
+            </form>
+            <h3>Submitted Feedback:</h3>
+            <ul id="feedbackList"></ul>
+        </div>
+    </div>
+
+    <footer>
+        (c) 2025 Event Management. All rights reserved.
+    </footer>
+
+    <script>
+        // Page Navigation Functions
+        function goToRegister() {
+            document.getElementById('introPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.remove('hidden');
+        }
+
+        function goToIntro() {
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('introPage').classList.remove('hidden');
+        }
+
+        // Submit Registration
+        function submitRegistration() {
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const eventName = document.getElementById('eventName').value;
+            const eventDate = document.getElementById('eventDate').value;
+            const eventPlace = document.getElementById('eventPlace').value;
+
+            if (!fullName || !email || !eventName || !eventDate || !eventPlace) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            const list = document.getElementById('registrationsList');
+            const listItem = document.createElement('li');
+            listItem.textContent = `Name: ${fullName}, Email: ${email}, Event: ${eventName}, Date: ${eventDate}, Place: ${eventPlace}`;
+            list.appendChild(listItem);
+
+            alert('Registration Successful!');
+            document.getElementById('registrationForm').reset();
+        }
+
+        // Submit Feedback
+        function submitFeedback() {
+            const name = document.getElementById('feedbackName').value;
+            const message = document.getElementById('feedbackMessage').value;
+
+            if (!name || !message) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            const feedbackList = document.getElementById('feedbackList');
+            const feedbackItem = document.createElement('li');
+            feedbackItem.textContent = `${name}: ${message}`;
+            feedbackList.appendChild(feedbackItem);
+
+            alert('Thank you for your feedback!');
+            document.getElementById('feedbackForm').reset();
+        }
+    </script>
+</body>
+</html>
